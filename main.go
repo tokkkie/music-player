@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"time"
 
+	"github.com/dhowden/tag"
 	"github.com/gopxl/beep/v2"
 	"github.com/gopxl/beep/v2/effects"
 	"github.com/gopxl/beep/v2/mp3"
@@ -17,6 +19,12 @@ func main() {
 		panic(err)
 	}
 	defer file.Close()
+
+	info, err := getMusicFileInfomation(file)
+	if err != nil {
+		panic(err)
+	}
+	println(info)
 
 	// mp3.Decodeでストリーマーを作る
 	streamer, format, err := mp3.Decode(file)
@@ -47,4 +55,35 @@ func main() {
 
 	// プレイヤーが終わるまで待機
 	<-done
+}
+
+// アーティスト名、曲名、アルバム名、トラック番号、再生時間、ファイルサイズ、ファイルパスを返す
+func getMusicFileInfomation(file *os.File) (string, error) {
+	metadata, err := tag.ReadFrom(file)
+	if err != nil {
+		return "", fmt.Errorf("failed to read tag: %w", err)
+	}
+
+	// ファイル情報を取得
+	fi, err := file.Stat()
+	if err != nil {
+		return "", fmt.Errorf("failed to stat file: %w", err)
+	}
+
+	// タグ情報を取得
+	artist := metadata.Artist()
+	title := metadata.Title()
+	album := metadata.Album()
+	track, _ := metadata.Track()
+
+	// ファイルの先頭に戻す（後続のmp3.Decodeのため）
+	if _, err := file.Seek(0, 0); err != nil {
+		return "", fmt.Errorf("failed to seek file: %w", err)
+	}
+
+	info := fmt.Sprintf(
+		"Artist: %s\nTitle: %s\nAlbum: %s\nTrack: %d\nFileSize: %d bytes\nFilePath: %s",
+		artist, title, album, track, fi.Size(), file.Name(),
+	)
+	return info, nil
 }
