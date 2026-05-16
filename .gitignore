@@ -45,6 +45,7 @@ ENV/
 .venv
 
 # Build outputs
+music-player
 dist/
 build/
 *.exe
