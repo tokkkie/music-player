@@ -23,6 +23,11 @@ fi
 # コメント行（#で始まる行）を除外してチェック
 commit_msg_filtered=$(echo "$commit_msg" | grep -v '^#' | head -n 1)
 
+# マージコミットは形式チェックをスキップ
+if echo "$commit_msg_filtered" | grep -qE '^Merge (branch|remote-tracking branch|pull request)'; then
+    exit 0
+fi
+
 # 形式チェック: "prefix: 説明" のパターン
 if ! echo "$commit_msg_filtered" | grep -qE '^[a-z]+(_[a-z]+)*:\s+.+$'; then
     echo "--------------------------------------------------"
