@@ -28,8 +28,8 @@ function TrackListPanel({ artist, album, albumYear, onPlayTrack, onTracksLoaded 
       return
     }
     try {
-      if (window.go?.main?.App?.GetAlbumArt) {
-        const art = await window.go.main.App.GetAlbumArt(artist, album)
+      if (window.go?.app?.App?.GetAlbumArt) {
+        const art = await window.go.app.App.GetAlbumArt(artist, album)
         setAlbumArt(art || '')
       }
     } catch (error) {
@@ -48,8 +48,8 @@ function TrackListPanel({ artist, album, albumYear, onPlayTrack, onTracksLoaded 
     }
 
     try {
-      if (window.go?.main?.App?.GetTracksByAlbum) {
-        const trackList = await window.go.main.App.GetTracksByAlbum(artist, album)
+      if (window.go?.app?.App?.GetTracksByAlbum) {
+        const trackList = await window.go.app.App.GetTracksByAlbum(artist, album)
         setTracks(trackList)
         
         // 親に全トラック情報を通知

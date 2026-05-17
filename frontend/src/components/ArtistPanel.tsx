@@ -27,8 +27,8 @@ function ArtistPanel({ selectedArtist, dataReady, onSelectArtist, fontScale, onF
 
   const loadArtists = async () => {
     try {
-      if (window.go?.main?.App?.GetArtists) {
-        const artistList = await window.go.main.App.GetArtists()
+      if (window.go?.app?.App?.GetArtists) {
+        const artistList = await window.go.app.App.GetArtists()
         setArtists(artistList)
       } else {
         setArtists(['UNICORN', 'The Beatles', 'Queen', 'Led Zeppelin'])
@@ -41,12 +41,11 @@ function ArtistPanel({ selectedArtist, dataReady, onSelectArtist, fontScale, onF
   const handleSelectDirectory = async () => {
     setShowSettings(false)
     try {
-      if (window.go?.main?.App?.OpenDirectoryDialog) {
-        const selectedPath = await window.go.main.App.OpenDirectoryDialog()
+      if (window.go?.app?.App?.OpenDirectoryDialog) {
+        const selectedPath = await window.go.app.App.OpenDirectoryDialog()
         if (selectedPath) {
-          console.log('Selected directory:', selectedPath)
-          if (window.go?.main?.App?.SetMusicDirectory) {
-            await window.go.main.App.SetMusicDirectory(selectedPath)
+          if (window.go?.app?.App?.SetMusicDirectory) {
+            await window.go.app.App.SetMusicDirectory(selectedPath)
             loadArtists()
           }
         }

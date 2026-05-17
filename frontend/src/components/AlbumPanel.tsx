@@ -22,8 +22,8 @@ function AlbumPanel({ artist, selectedAlbum, onSelectAlbum }: AlbumPanelProps) {
     }
 
     try {
-      if (window.go?.main?.App?.GetAlbumsByArtist) {
-        const albumList = await window.go.main.App.GetAlbumsByArtist(artist)
+      if (window.go?.app?.App?.GetAlbumsByArtist) {
+        const albumList = await window.go.app.App.GetAlbumsByArtist(artist)
         setAlbums(albumList)
       } else {
         setAlbums([

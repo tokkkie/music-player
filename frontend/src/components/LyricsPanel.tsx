@@ -21,8 +21,8 @@ function LyricsPanel({ artist, title, album }: LyricsPanelProps) {
 
       if (!cancelled) setLoading(true)
       try {
-        if (window.go?.main?.App?.GetLyrics) {
-          const result = await window.go.main.App.GetLyrics(artist, title, album)
+        if (window.go?.app?.App?.GetLyrics) {
+          const result = await window.go.app.App.GetLyrics(artist, title, album)
           if (!cancelled) {
             setLyrics(result || '')
           }
