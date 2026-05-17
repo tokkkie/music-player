@@ -1,0 +1,51 @@
+.album-panel {
+  flex-shrink: 0;
+  background-color: #2a2a2a;
+  border-right: 1px solid #3a3a3a;
+  display: flex;
+  flex-direction: column;
+}
+
+.album-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.album-item {
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #333333;
+}
+
+.album-item:hover {
+  background-color: #353535;
+}
+
+.album-item.selected {
+  background-color: #2980b9;
+}
+
+.album-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.album-year {
+  font-size: 0.875rem;
+  color: #b3b3b3;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.album-artist {
+  font-size: 0.875rem;
+  color: #b3b3b3;
+  margin-top: 2px;
+}
+
+.album-item.selected .album-year {
+  color: #e0e0e0;
+}
