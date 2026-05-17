@@ -1,0 +1,11 @@
+github.com/dhowden/tag,https://github.com/dhowden/tag/blob/3d75831295e8/LICENSE,BSD-2-Clause
+github.com/ebitengine/oto/v3,https://github.com/ebitengine/oto/blob/v3.3.2/LICENSE,Apache-2.0
+github.com/gopxl/beep/v2,https://github.com/gopxl/beep/blob/v2.1.1/LICENSE,MIT
+github.com/hajimehoshi/go-mp3,https://github.com/hajimehoshi/go-mp3/blob/v0.3.4/LICENSE,Apache-2.0
+github.com/leaanthony/go-ansi-parser,https://github.com/leaanthony/go-ansi-parser/blob/v1.6.1/LICENSE,MIT
+github.com/leaanthony/slicer,https://github.com/leaanthony/slicer/blob/v1.6.0/LICENSE,MIT
+github.com/leaanthony/u,https://github.com/leaanthony/u/blob/v1.1.1/LICENSE,MIT
+github.com/pkg/errors,https://github.com/pkg/errors/blob/v0.9.1/LICENSE,BSD-2-Clause
+github.com/rivo/uniseg,https://github.com/rivo/uniseg/blob/v0.4.7/LICENSE.txt,MIT
+github.com/tokkkie/music-player,https://github.com/tokkkie/music-player/blob/HEAD/LICENSE,MIT
+github.com/wailsapp/wails/v2,https://github.com/wailsapp/wails/blob/v2.12.0/v2/LICENSE,MIT
