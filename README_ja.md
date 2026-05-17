@@ -1,12 +1,11 @@
 # Music Player
 
-Wails + React + TypeScript で実装したmp3playerです
+Go + Wails + React + TypeScript で実装した MP3 プレーヤーです
 
 世の中のmp3playerの機能を見ると欲しいものがなかったり、不要な機能がついている事も多く、設定も面倒でした。
 このソフトウェアはローカルディレクトリの通りに表示を行い、アルバムアートと歌詞だけを表示、再生するだけのシンプルなプレーヤーです。
 
 将来別の機能が欲しくなるかもしれませんが、おそらくこれで十分です。
-
 
 ## 機能
 
@@ -52,3 +51,7 @@ wails build
 │   └── ...
 └── ...
 ```
+
+## 開発
+
+詳細は [docs/development.md](docs/development.md) を参照してください。
