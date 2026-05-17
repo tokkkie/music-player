@@ -1,0 +1,29 @@
+.lyrics-panel {
+  flex-shrink: 0;
+  background-color: #252525;
+  border-left: 1px solid #3a3a3a;
+  display: flex;
+  flex-direction: column;
+}
+
+.lyrics-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.lyrics-placeholder {
+  color: #666666;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.lyrics-text {
+  color: #e0e0e0;
+  font-size: 1rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+  font-family: inherit;
+}

@@ -1,0 +1,45 @@
+:root {
+  --base-font-size: 16px;
+}
+
+html {
+  font-size: var(--base-font-size);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.panel-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-wrapper > * {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.resizer {
+  width: 6px;
+  flex-shrink: 0;
+  background-color: #333333;
+  cursor: col-resize;
+  transition: background-color 0.15s;
+}
+
+.resizer:hover {
+  background-color: #2980b9;
+}
