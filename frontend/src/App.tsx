@@ -62,9 +62,9 @@ function App() {
       console.log('dataReady event received')
       setDataReady(true)
 
-      if (window.go?.main?.App?.GetLastSelection) {
+      if (window.go?.app?.App?.GetLastSelection) {
         try {
-          const selection = await window.go.main.App.GetLastSelection()
+          const selection = await window.go.app.App.GetLastSelection()
           console.log('Loaded selection:', selection)
           
           if (selection.artist) {
@@ -108,9 +108,9 @@ function App() {
   useEffect(() => {
     if (!isInitialLoadRef.current && (selectedArtist || selectedAlbum)) {
       const saveSelection = async () => {
-        if (window.go?.main?.App?.SaveLastSelection) {
+        if (window.go?.app?.App?.SaveLastSelection) {
           try {
-            await window.go.main.App.SaveLastSelection(selectedArtist, selectedAlbum)
+            await window.go.app.App.SaveLastSelection(selectedArtist, selectedAlbum)
             console.log('Saved selection:', selectedArtist, selectedAlbum)
           } catch (error) {
             console.error('Failed to save selection:', error)
@@ -128,9 +128,9 @@ function App() {
       setCurrentTrackIndex(nextIndex)
       
       // 次の曲の情報を取得
-      if (window.go?.main?.App?.GetTracksByAlbum && currentTrackInfo.artist && selectedAlbum) {
+      if (window.go?.app?.App?.GetTracksByAlbum && currentTrackInfo.artist && selectedAlbum) {
         try {
-          const tracks = await window.go.main.App.GetTracksByAlbum(currentTrackInfo.artist, selectedAlbum)
+          const tracks = await window.go.app.App.GetTracksByAlbum(currentTrackInfo.artist, selectedAlbum)
           if (tracks[nextIndex]) {
             setCurrentTrackInfo({ artist: tracks[nextIndex].artist, title: tracks[nextIndex].title })
           }

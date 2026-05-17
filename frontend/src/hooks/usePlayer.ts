@@ -44,11 +44,11 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
   // トラック変更時に再生開始
   useEffect(() => {
     const loadTrack = async () => {
-      if (currentTrack && window.go?.main?.App?.PlayTrack) {
-        await window.go.main.App.PlayTrack(currentTrack)
+      if (currentTrack && window.go?.app?.App?.PlayTrack) {
+        await window.go.app.App.PlayTrack(currentTrack)
         setIsPlaying(true)
-        if (window.go?.main?.App?.GetPlayerState) {
-          const state = await window.go.main.App.GetPlayerState()
+        if (window.go?.app?.App?.GetPlayerState) {
+          const state = await window.go.app.App.GetPlayerState()
           setDuration(state.duration)
         }
       }
@@ -60,12 +60,12 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
   const handleTrackEnded = useCallback(async () => {
     if (repeatMode === 'one') {
       // 1曲リピート
-      if (currentTrack && window.go?.main?.App?.PlayTrack) {
-        await window.go.main.App.PlayTrack(currentTrack)
+      if (currentTrack && window.go?.app?.App?.PlayTrack) {
+        await window.go.app.App.PlayTrack(currentTrack)
         setIsPlaying(true)
         setCurrentTime(0)
-        if (window.go?.main?.App?.GetPlayerState) {
-          const state = await window.go.main.App.GetPlayerState()
+        if (window.go?.app?.App?.GetPlayerState) {
+          const state = await window.go.app.App.GetPlayerState()
           setDuration(state.duration)
         }
       }
@@ -75,13 +75,13 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
         onNextTrack()
       } else if (trackList.length > 0) {
         // アルバムの最後なので最初に戻る
-        if (window.go?.main?.App?.PlayTrack) {
-          await window.go.main.App.PlayTrack(trackList[0])
+        if (window.go?.app?.App?.PlayTrack) {
+          await window.go.app.App.PlayTrack(trackList[0])
           setIsPlaying(true)
           setCurrentTime(0)
           if (onSetTrackIndex) onSetTrackIndex(0)
-          if (window.go?.main?.App?.GetPlayerState) {
-            const state = await window.go.main.App.GetPlayerState()
+          if (window.go?.app?.App?.GetPlayerState) {
+            const state = await window.go.app.App.GetPlayerState()
             setDuration(state.duration)
           }
         }
@@ -113,8 +113,8 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
         handleTrackEnded()
       })
       window.runtime.EventsOn('trackChanged', async () => {
-        if (window.go?.main?.App?.GetPlayerState) {
-          const state = await window.go.main.App.GetPlayerState()
+        if (window.go?.app?.App?.GetPlayerState) {
+          const state = await window.go.app.App.GetPlayerState()
           setDuration(state.duration)
         }
       })
@@ -135,13 +135,13 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
   const handlePlayPause = useCallback(async () => {
     try {
       if (isPlaying) {
-        if (window.go?.main?.App?.PauseTrack) {
-          await window.go.main.App.PauseTrack()
+        if (window.go?.app?.App?.PauseTrack) {
+          await window.go.app.App.PauseTrack()
           setIsPlaying(false)
         }
       } else {
-        if (window.go?.main?.App?.ResumeTrack) {
-          await window.go.main.App.ResumeTrack()
+        if (window.go?.app?.App?.ResumeTrack) {
+          await window.go.app.App.ResumeTrack()
           setIsPlaying(true)
         }
       }
@@ -153,8 +153,8 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
   // 停止
   const handleStop = useCallback(async () => {
     try {
-      if (window.go?.main?.App?.StopTrack) {
-        await window.go.main.App.StopTrack()
+      if (window.go?.app?.App?.StopTrack) {
+        await window.go.app.App.StopTrack()
         setIsPlaying(false)
         setCurrentTime(0)
       }
@@ -173,8 +173,8 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
       setIsMuted(true)
     }
     try {
-      if (window.go?.main?.App?.SetVolume) {
-        await window.go.main.App.SetVolume(newVolume / 100)
+      if (window.go?.app?.App?.SetVolume) {
+        await window.go.app.App.SetVolume(newVolume / 100)
       }
     } catch (error) {
       console.error('Volume change error:', error)
@@ -188,8 +188,8 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
       setVolume(restoreVolume)
       setIsMuted(false)
       try {
-        if (window.go?.main?.App?.SetVolume) {
-          await window.go.main.App.SetVolume(restoreVolume / 100)
+        if (window.go?.app?.App?.SetVolume) {
+          await window.go.app.App.SetVolume(restoreVolume / 100)
         }
       } catch (error) {
         console.error('Unmute error:', error)
@@ -199,8 +199,8 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
       setVolume(0)
       setIsMuted(true)
       try {
-        if (window.go?.main?.App?.SetVolume) {
-          await window.go.main.App.SetVolume(0)
+        if (window.go?.app?.App?.SetVolume) {
+          await window.go.app.App.SetVolume(0)
         }
       } catch (error) {
         console.error('Mute error:', error)
@@ -212,8 +212,8 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
   const handleSeek = useCallback(async (time: number) => {
     setCurrentTime(time)
     try {
-      if (window.go?.main?.App?.SeekTo) {
-        await window.go.main.App.SeekTo(time)
+      if (window.go?.app?.App?.SeekTo) {
+        await window.go.app.App.SeekTo(time)
       }
     } catch (error) {
       console.error('Seek error:', error)

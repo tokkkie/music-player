@@ -14,7 +14,7 @@ export interface AlbumInfo {
 declare global {
   interface Window {
     go: {
-      main: {
+      app: {
         App: {
           GetArtists(): Promise<string[]>
           SetMusicDirectory(path: string): Promise<void>
