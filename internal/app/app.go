@@ -52,14 +52,7 @@ func (a *App) Startup(ctx context.Context) {
 	go func() {
 		config, err := loadConfig()
 		if err == nil && config.MusicDirectory != "" {
-			fmt.Printf("Loading music from: %s\n", config.MusicDirectory)
-			if err := a.SetMusicDirectory(config.MusicDirectory); err != nil {
-				fmt.Printf("Failed to load music directory: %v\n", err)
-			} else {
-				fmt.Printf("Loaded %d tracks\n", len(a.tracks))
-			}
-		} else {
-			fmt.Printf("No music directory configured (err=%v)\n", err)
+			a.SetMusicDirectory(config.MusicDirectory)
 		}
 		close(a.tracksReady)
 	}()
@@ -68,14 +61,12 @@ func (a *App) Startup(ctx context.Context) {
 	go func() {
 		<-a.tracksReady
 		<-a.domReady
-		fmt.Printf("Data ready: %d tracks, emitting dataReady event\n", len(a.tracks))
 		runtime.EventsEmit(a.ctx, "dataReady", true)
 	}()
 }
 
 // OnDomReady はDOM準備完了時に呼ばれる
 func (a *App) OnDomReady(ctx context.Context) {
-	fmt.Printf("DOM ready\n")
 	close(a.domReady)
 }
 
@@ -90,9 +81,7 @@ func (a *App) SetMusicDirectory(path string) error {
 
 	config, _ := loadConfig()
 	config.MusicDirectory = path
-	if err := saveConfig(config); err != nil {
-		fmt.Printf("Warning: failed to save config: %v\n", err)
-	}
+	saveConfig(config)
 
 	return nil
 }
@@ -120,7 +109,6 @@ func (a *App) SaveLastSelection(artist, album string) error {
 	if err := saveConfig(config); err != nil {
 		return fmt.Errorf("failed to save selection: %w", err)
 	}
-	fmt.Printf("Saved selection: artist=%s, album=%s, year=%s\n", artist, album, config.LastAlbumYear)
 	return nil
 }
 
@@ -128,10 +116,8 @@ func (a *App) SaveLastSelection(artist, album string) error {
 func (a *App) GetLastSelection() map[string]string {
 	config, err := loadConfig()
 	if err != nil {
-		fmt.Printf("Failed to load config: %v\n", err)
 		return map[string]string{"artist": "", "album": "", "year": ""}
 	}
-	fmt.Printf("Loaded selection: artist=%s, album=%s, year=%s\n", config.LastArtist, config.LastAlbum, config.LastAlbumYear)
 	return map[string]string{
 		"artist": config.LastArtist,
 		"album":  config.LastAlbum,
@@ -154,11 +140,9 @@ func (a *App) startInhibitLocked() {
 	}
 	cancel, err := power.Inhibit()
 	if err != nil {
-		fmt.Printf("Warning: failed to inhibit sleep: %v\n", err)
 		return
 	}
 	a.inhibitCancel = cancel
-	fmt.Println("Sleep inhibited")
 }
 
 // stopInhibitLocked はスリープ抑制を解除する。呼び出し元で a.mu を保持していること。
@@ -166,6 +150,5 @@ func (a *App) stopInhibitLocked() {
 	if a.inhibitCancel != nil {
 		a.inhibitCancel()
 		a.inhibitCancel = nil
-		fmt.Println("Sleep inhibition released")
 	}
 }
