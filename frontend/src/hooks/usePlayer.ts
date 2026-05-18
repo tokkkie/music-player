@@ -140,7 +140,15 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
           setIsPlaying(false)
         }
       } else {
-        if (window.go?.app?.App?.ResumeTrack) {
+        // 停止後は曲を再読み込み、一時停止中は再開
+        if (currentTrack && window.go?.app?.App?.PlayTrack) {
+          await window.go.app.App.PlayTrack(currentTrack)
+          setIsPlaying(true)
+          if (window.go?.app?.App?.GetPlayerState) {
+            const state = await window.go.app.App.GetPlayerState()
+            setDuration(state.duration)
+          }
+        } else if (window.go?.app?.App?.ResumeTrack) {
           await window.go.app.App.ResumeTrack()
           setIsPlaying(true)
         }
@@ -148,7 +156,7 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
     } catch (error) {
       console.error('Play/Pause error:', error)
     }
-  }, [isPlaying])
+  }, [isPlaying, currentTrack])
 
   // 停止
   const handleStop = useCallback(async () => {
