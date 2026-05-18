@@ -26,13 +26,10 @@ function AlbumPanel({ artist, selectedAlbum, onSelectAlbum }: AlbumPanelProps) {
         const albumList = await window.go.app.App.GetAlbumsByArtist(artist)
         setAlbums(albumList)
       } else {
-        setAlbums([
-          { artist: artist, album: 'クロスロード', year: '1993' },
-          { artist: artist, album: 'ケダモノの嵐', year: '1994' },
-        ])
+        setAlbums([])
       }
-    } catch (error) {
-      console.error('Failed to load albums:', error)
+    } catch {
+      setAlbums([])
     }
   }
 
