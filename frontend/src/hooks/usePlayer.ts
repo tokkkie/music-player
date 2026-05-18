@@ -146,7 +146,7 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
         }
       }
     } catch (error) {
-      // エラーは無視
+      console.error('Play/Pause error:', error)
     }
   }, [isPlaying])
 
@@ -159,7 +159,7 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
         setCurrentTime(0)
       }
     } catch (error) {
-      // エラーは無視
+      console.error('Stop error:', error)
     }
   }, [])
 
@@ -177,7 +177,7 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
         await window.go.app.App.SetVolume(newVolume / 100)
       }
     } catch (error) {
-      // エラーは無視
+      console.error('Volume change error:', error)
     }
   }, [])
 
@@ -192,7 +192,7 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
           await window.go.app.App.SetVolume(restoreVolume / 100)
         }
       } catch (error) {
-        // エラーは無視
+        console.error('Unmute error:', error)
       }
     } else {
       setPreviousVolume(volume)
@@ -203,7 +203,7 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
           await window.go.app.App.SetVolume(0)
         }
       } catch (error) {
-        // エラーは無視
+        console.error('Mute error:', error)
       }
     }
   }, [isMuted, previousVolume, volume])
@@ -216,7 +216,7 @@ export function usePlayer(options: UsePlayerOptions): [PlayerState, PlayerAction
         await window.go.app.App.SeekTo(time)
       }
     } catch (error) {
-      // エラーは無視
+      console.error('Seek error:', error)
     }
   }, [])
 

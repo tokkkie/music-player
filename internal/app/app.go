@@ -81,7 +81,9 @@ func (a *App) SetMusicDirectory(path string) error {
 
 	config, _ := loadConfig()
 	config.MusicDirectory = path
-	saveConfig(config)
+	if err := saveConfig(config); err != nil {
+		fmt.Printf("Warning: failed to save config: %v\n", err)
+	}
 
 	return nil
 }
@@ -140,6 +142,7 @@ func (a *App) startInhibitLocked() {
 	}
 	cancel, err := power.Inhibit()
 	if err != nil {
+		fmt.Printf("Warning: failed to inhibit sleep: %v\n", err)
 		return
 	}
 	a.inhibitCancel = cancel
