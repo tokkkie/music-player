@@ -59,13 +59,11 @@ function App() {
   // dataReadyイベントを待ってから選択を復元
   useEffect(() => {
     const handleDataReady = async () => {
-      console.log('dataReady event received')
       setDataReady(true)
 
       if (window.go?.app?.App?.GetLastSelection) {
         try {
           const selection = await window.go.app.App.GetLastSelection()
-          console.log('Loaded selection:', selection)
           
           if (selection.artist) {
             setSelectedArtist(selection.artist)
@@ -79,14 +77,13 @@ function App() {
             setDisplayAlbumYear(selection.year)
           }
         } catch (error) {
-          console.error('Failed to load last selection:', error)
+          // エラーは無視
         }
       }
       
       // 状態更新が完了してから初回読み込みフラグを解除
       setTimeout(() => {
         isInitialLoadRef.current = false
-        console.log('Initial load completed')
       }, 200)
     }
 
@@ -111,9 +108,8 @@ function App() {
         if (window.go?.app?.App?.SaveLastSelection) {
           try {
             await window.go.app.App.SaveLastSelection(selectedArtist, selectedAlbum)
-            console.log('Saved selection:', selectedArtist, selectedAlbum)
           } catch (error) {
-            console.error('Failed to save selection:', error)
+            // エラーは無視
           }
         }
       }
@@ -135,7 +131,7 @@ function App() {
             setCurrentTrackInfo({ artist: tracks[nextIndex].artist, title: tracks[nextIndex].title })
           }
         } catch (error) {
-          console.error('Failed to get track info:', error)
+          // エラーは無視
         }
       }
     }
