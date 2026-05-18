@@ -33,7 +33,6 @@ function TrackListPanel({ artist, album, albumYear, onPlayTrack, onTracksLoaded 
         setAlbumArt(art || '')
       }
     } catch (error) {
-      console.error('Failed to load album art:', error)
       setAlbumArt('')
     }
   }
@@ -52,23 +51,12 @@ function TrackListPanel({ artist, album, albumYear, onPlayTrack, onTracksLoaded 
         const trackList = await window.go.app.App.GetTracksByAlbum(artist, album)
         setTracks(trackList)
         
-        // 親に全トラック情報を通知
         if (onTracksLoaded) {
           const tracksInfo = trackList.map(t => ({ artist: t.artist, title: cleanTitle(t.title) }))
           onTracksLoaded(tracksInfo)
         }
-      } else {
-        setTracks([
-          { artist: artist, album: album, title: '大迷惑', filePath: '/path/to/track1.mp3' },
-        ])
-        if (onTracksLoaded) {
-          onTracksLoaded([
-            { artist: artist, title: '大迷惑' },
-          ])
-        }
       }
     } catch (error) {
-      console.error('Failed to load tracks:', error)
       setTracks([])
       if (onTracksLoaded) {
         onTracksLoaded([])
@@ -107,7 +95,6 @@ function TrackListPanel({ artist, album, albumYear, onPlayTrack, onTracksLoaded 
             onDoubleClick={() => {
               const trackPaths = tracks.map(t => t.filePath)
               onPlayTrack(track.filePath, trackPaths, index, track.artist, cleanTitle(track.title))
-              console.log('Playing:', track.filePath)
             }}
           >
             <div className="track-number">{index + 1}</div>
