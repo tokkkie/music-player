@@ -207,31 +207,25 @@ func (a *App) GetAlbumArt(artist, album string) string {
 
 	// 1. キャッシュチェック
 	if data, mime, ok := getCachedArt(artist, album); ok {
-		fmt.Printf("Album art cache hit: %s - %s\n", artist, album)
 		return toDataURI(data, mime)
 	}
 
 	// 2. ID3タグから取得
 	if data, mime, err := a.getArtFromID3(artist, album); err == nil {
-		fmt.Printf("Album art from ID3: %s - %s\n", artist, album)
 		saveCachedArt(artist, album, data, mime)
 		return toDataURI(data, mime)
 	}
 
 	// 3. フォルダ内画像から取得
 	if data, mime, err := a.getArtFromFolder(artist, album); err == nil {
-		fmt.Printf("Album art from folder: %s - %s\n", artist, album)
 		saveCachedArt(artist, album, data, mime)
 		return toDataURI(data, mime)
 	}
 
 	// 4. MusicBrainz/CAAから取得
 	if data, mime, err := getArtFromMusicBrainz(artist, album); err == nil {
-		fmt.Printf("Album art from MusicBrainz: %s - %s\n", artist, album)
 		saveCachedArt(artist, album, data, mime)
 		return toDataURI(data, mime)
-	} else {
-		fmt.Printf("Album art not found: %s - %s (%v)\n", artist, album, err)
 	}
 
 	return ""
