@@ -50,7 +50,15 @@ function PlayerPanel({ currentTrack, trackList, trackIndex, onNextTrack, trackIn
         </div>
         <div className="player-progress">
           <span className="time">{formatTime(currentTime)} / {formatTime(duration)}</span>
-          <div className="progress-bar-wrapper">
+          <div
+            className="progress-bar-wrapper"
+            onClick={(e) => {
+              const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect()
+              const ratio = (e.clientX - rect.left) / rect.width
+              const newTime = Math.max(0, Math.min(duration, ratio * duration))
+              handleSeek(newTime)
+            }}
+          >
             <input
               type="range"
               className="progress-bar"
@@ -102,7 +110,15 @@ function PlayerPanel({ currentTrack, trackList, trackIndex, onNextTrack, trackIn
         >
           {isMuted ? '🔇' : volume > 50 ? '🔊' : volume > 0 ? '🔉' : '🔈'}
         </button>
-        <div className="volume-slider-wrapper">
+        <div
+          className="volume-slider-wrapper"
+          onClick={(e) => {
+            const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect()
+            const ratio = (e.clientX - rect.left) / rect.width
+            const newVolume = Math.max(0, Math.min(100, Math.round(ratio * 100)))
+            handleVolumeChange(newVolume)
+          }}
+        >
           <input
             type="range"
             className="volume-slider"
