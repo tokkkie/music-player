@@ -1,5 +1,7 @@
 # Music Player
 
+![Music Player Screenshot](docs/music-player.png)
+
 A simple MP3 player built with Go + Wails + React + TypeScript.
 
 Most MP3 players have features I don't need or lack the ones I want. This software simply displays your local directory structure, shows album art and lyrics, and plays music. Nothing more.
