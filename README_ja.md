@@ -1,5 +1,7 @@
 # Music Player
 
+![Music Player Screenshot](docs/music-player.png)
+
 Go + Wails + React + TypeScript で実装した MP3 プレーヤーです
 
 世の中のmp3playerの機能を見ると欲しいものがなかったり、不要な機能がついている事も多く、設定も面倒でした。
