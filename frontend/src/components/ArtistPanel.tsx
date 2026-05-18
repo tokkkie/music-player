@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import './ArtistPanel.css'
-import '../types/wails.ts'
 
 interface ArtistPanelProps {
   selectedArtist: string
@@ -30,11 +29,9 @@ function ArtistPanel({ selectedArtist, dataReady, onSelectArtist, fontScale, onF
       if (window.go?.app?.App?.GetArtists) {
         const artistList = await window.go.app.App.GetArtists()
         setArtists(artistList)
-      } else {
-        setArtists(['UNICORN', 'The Beatles', 'Queen', 'Led Zeppelin'])
       }
     } catch (error) {
-      console.error('Failed to load artists:', error)
+      setArtists([])
     }
   }
 
@@ -51,7 +48,7 @@ function ArtistPanel({ selectedArtist, dataReady, onSelectArtist, fontScale, onF
         }
       }
     } catch (error) {
-      console.error('Failed to select directory:', error)
+      // エラー時は何もしない
     }
   }
 
