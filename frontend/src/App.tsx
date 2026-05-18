@@ -77,7 +77,7 @@ function App() {
             setDisplayAlbumYear(selection.year)
           }
         } catch (error) {
-          // エラーは無視
+          console.error('Failed to load last selection:', error)
         }
       }
       
@@ -109,7 +109,7 @@ function App() {
           try {
             await window.go.app.App.SaveLastSelection(selectedArtist, selectedAlbum)
           } catch (error) {
-            // エラーは無視
+            console.error('Failed to save selection:', error)
           }
         }
       }
@@ -131,7 +131,7 @@ function App() {
             setCurrentTrackInfo({ artist: tracks[nextIndex].artist, title: tracks[nextIndex].title })
           }
         } catch (error) {
-          // エラーは無視
+          console.error('Failed to get track info:', error)
         }
       }
     }
