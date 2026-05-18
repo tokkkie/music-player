@@ -28,7 +28,6 @@ function LyricsPanel({ artist, title, album }: LyricsPanelProps) {
           }
         }
       } catch (error) {
-        console.error('Failed to load lyrics:', error)
         if (!cancelled) setLyrics('')
       } finally {
         if (!cancelled) setLoading(false)
