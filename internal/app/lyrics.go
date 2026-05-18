@@ -139,24 +139,19 @@ func (a *App) GetLyrics(artist, title, album string) string {
 
 	// 1. キャッシュチェック
 	if cached, ok := getCachedLyrics(artist, title, album); ok {
-		fmt.Printf("Lyrics cache hit: %s - %s\n", artist, title)
 		return cached
 	}
 
 	// 2. ID3タグから取得
 	if lyrics, err := a.getLyricsFromID3(artist, title, album); err == nil {
-		fmt.Printf("Lyrics from ID3: %s - %s\n", artist, title)
 		saveCachedLyrics(artist, title, album, lyrics)
 		return lyrics
 	}
 
 	// 3. LRCLIBから取得
 	if lyrics, err := getLyricsFromLRCLIB(artist, title, album); err == nil {
-		fmt.Printf("Lyrics from LRCLIB: %s - %s\n", artist, title)
 		saveCachedLyrics(artist, title, album, lyrics)
 		return lyrics
-	} else {
-		fmt.Printf("Lyrics not found: %s - %s (%v)\n", artist, title, err)
 	}
 
 	return ""
