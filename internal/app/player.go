@@ -90,7 +90,6 @@ func (a *App) PlayTrack(filePath string) error {
 	// 進捗更新用のゴルーチン
 	go a.updateProgress(done)
 
-	fmt.Printf("Playing: %s (duration: %.2fs)\n", filePath, a.duration)
 	a.startInhibitLocked()
 	return nil
 }
@@ -197,7 +196,6 @@ func (a *App) SetVolume(volume float64) error {
 		a.volumeCtrl.Silent = volume == 0
 		speaker.Unlock()
 	}
-	fmt.Printf("Volume set to: %.2f (%.2f dB)\n", volume, (volume*5.0)-5.0)
 	return nil
 }
 
