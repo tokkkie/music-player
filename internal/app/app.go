@@ -8,29 +8,31 @@ import (
 
 	"github.com/gopxl/beep/v2"
 	"github.com/gopxl/beep/v2/effects"
+	"github.com/tokkkie/music-player/internal/app/power"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App はアプリケーションのメイン構造体
 type App struct {
-	ctx          context.Context
-	musicPath    string
-	tracks       []MusicTrack
-	currentTrack string
-	isPlaying    bool
-	isPaused     bool
-	volume       float64
-	currentTime  float64
-	duration     float64
-	streamer     beep.StreamSeekCloser
-	ctrl         *beep.Ctrl
-	volumeCtrl   *effects.Volume
-	format       beep.Format
-	mu           sync.Mutex
-	speakerInit  bool
-	stopChan     chan bool
-	tracksReady  chan struct{}
-	domReady     chan struct{}
+	ctx           context.Context
+	musicPath     string
+	tracks        []MusicTrack
+	currentTrack  string
+	isPlaying     bool
+	isPaused      bool
+	volume        float64
+	currentTime   float64
+	duration      float64
+	streamer      beep.StreamSeekCloser
+	ctrl          *beep.Ctrl
+	volumeCtrl    *effects.Volume
+	format        beep.Format
+	mu            sync.Mutex
+	speakerInit   bool
+	stopChan      chan bool
+	tracksReady   chan struct{}
+	domReady      chan struct{}
+	inhibitCancel func()
 }
 
 // NewApp は新しいAppインスタンスを作成する
@@ -143,4 +145,27 @@ func (a *App) OpenDirectoryDialog() (string, error) {
 		Title: "Select Music Directory",
 	})
 	return path, err
+}
+
+// startInhibitLocked はスリープ抑制を開始する。呼び出し元で a.mu を保持していること。
+func (a *App) startInhibitLocked() {
+	if a.inhibitCancel != nil {
+		return
+	}
+	cancel, err := power.Inhibit()
+	if err != nil {
+		fmt.Printf("Warning: failed to inhibit sleep: %v\n", err)
+		return
+	}
+	a.inhibitCancel = cancel
+	fmt.Println("Sleep inhibited")
+}
+
+// stopInhibitLocked はスリープ抑制を解除する。呼び出し元で a.mu を保持していること。
+func (a *App) stopInhibitLocked() {
+	if a.inhibitCancel != nil {
+		a.inhibitCancel()
+		a.inhibitCancel = nil
+		fmt.Println("Sleep inhibition released")
+	}
 }

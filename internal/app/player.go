@@ -27,6 +27,8 @@ func (a *App) PlayTrack(filePath string) error {
 		}
 	}
 
+	a.stopInhibitLocked()
+
 	// ファイルを開く
 	file, err := os.Open(filePath)
 	if err != nil {
@@ -89,6 +91,7 @@ func (a *App) PlayTrack(filePath string) error {
 	go a.updateProgress(done)
 
 	fmt.Printf("Playing: %s (duration: %.2fs)\n", filePath, a.duration)
+	a.startInhibitLocked()
 	return nil
 }
 
@@ -103,6 +106,7 @@ func (a *App) updateProgress(done chan bool) {
 			a.mu.Lock()
 			a.isPlaying = false
 			a.currentTime = 0
+			a.stopInhibitLocked()
 			a.mu.Unlock()
 			runtime.EventsEmit(a.ctx, "playStateChanged", false)
 			runtime.EventsEmit(a.ctx, "trackEnded", true)
@@ -133,6 +137,7 @@ func (a *App) PauseTrack() error {
 		a.isPaused = true
 		a.isPlaying = false
 		runtime.EventsEmit(a.ctx, "playStateChanged", false)
+		a.stopInhibitLocked()
 	}
 	return nil
 }
@@ -149,6 +154,7 @@ func (a *App) ResumeTrack() error {
 		a.isPaused = false
 		a.isPlaying = true
 		runtime.EventsEmit(a.ctx, "playStateChanged", true)
+		a.startInhibitLocked()
 	}
 	return nil
 }
@@ -173,6 +179,7 @@ func (a *App) StopTrack() error {
 	a.currentTime = 0
 	runtime.EventsEmit(a.ctx, "playStateChanged", false)
 	runtime.EventsEmit(a.ctx, "trackStopped", true)
+	a.stopInhibitLocked()
 	return nil
 }
 
